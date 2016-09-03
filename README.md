@@ -4,7 +4,8 @@
 
 Everyone's Puppet environment generally needs a Standard Operating Environmet
 (SOE) or base module of some kind to setup general sensible good things for
-your environment.
+your environment so that you don't have to re-define the same common set of
+modules and configurations every time.
 
 This can be a hurdle for getting started with Puppet, so this module includes
 various sensible SOE configurations that you can either pickup as include as-is
@@ -13,13 +14,15 @@ or fork the module to adjust and meet your own specific needs.
 
 ## Key Features
 
-* Properly configure FQDN of server.
-* Configure swap space on low memory boxes.
-* Setup automatic updates.
+* Configure host FQDN
 * Configure NTP and timezones
+* Configure swap space on low memory boxes.
+* Configure SSH no-password logins.
+* Enable automatic updates.
+* Enable repos such as EPEL.
+* Install core packages
 * Install Newrelic server agent.
 * And much more...
-
 
 
 ## Usage
@@ -52,15 +55,37 @@ to setup repositories used by later modules.
 
 ## Configuration
 
-The SOE module is somewhat configurable - there are a large number of
-parameters defined in `manifests/params.pp`, along with explainations of their
-purpose. You can change any of them via Hiera override rather than needing to
-fork the module simply to change a param.
+Because of the nature and scale of this module, rather than creating a
+parameter for every single configuration option, the decision has been made
+to enforce the use of Hiera for anyone wishing to override or disable any
+part of the configuration.
 
-For example, the config option `$manage_time_zone` can be set by adding the
-following line to your Hiera data, which will take precedence.
+If we followed the popular Puppet `params.pp` pattern of configuration, we'd
+instead end up with hundreds of lines of confusing logic and params that is
+much more tidy if homed in the sub classes themselves.
 
-    soe::manage_time_zone: 'Some/Other/Timezone'
+Each sub class includes logic that determines if it's contents is appropiate
+for any given system. For example, the various entiries in `manifests/fix/`
+check to see if the system actually needs their config, even if enabled.
+
+In addition, every sub-class features an `enable` param that can be set to
+`false` in Hiera to disable that configuration component.
+
+For example, if you really didn't want the include "no automatic tmpfs mount on
+/tmp on RHEL" fix, you could set the following in Hiera:
+
+    soe::fix::rhel_systemd_tmpfs::enable: false
+
+This works becauses we have the following logic in
+`manifests/fix/rhel_systemd_tmpfs.pp` which states:
+
+    class soe::fix::rhel_systemd_tmpfs (
+      $enable = true,
+    ) {
+
+      if ($enable) {
+        # ... do stuff
+
 
 Of course this SOE isn't going to meet every use case. Where it falls short,
 you are welcome to do any of the following:
