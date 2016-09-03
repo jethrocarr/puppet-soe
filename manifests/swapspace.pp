@@ -1,5 +1,5 @@
 # Configure a swapfile
-class soe::sudo (
+class soe::swapspace (
   $swapfilesize = $soe::manage_swapspace
 ) {
 
