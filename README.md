@@ -91,9 +91,17 @@ This works becauses we have the following logic in
       if ($enable) {
         # ... do stuff
 
+Remember that with Hiera if you place configuration in `common.yml` it will
+apply to every single server, but you can also do much more targeted
+configuration if desired.
 
-Of course this SOE isn't going to meet every use case. Where it falls short,
-you are welcome to do any of the following:
+Some sub-classes contain additional params, all of which you can adjust via
+Hiera. It is best to review each file to learn about it's functionality from
+the comments at the header.
+
+
+Of course even with this configurability, this SOE module isn't going to meet
+every use case. Where it falls short, you are welcome to do any of the following:
 
 1. Submit a PR if it's a useful feature to many other people (rather than just
    yourself or some very unique rare distribution).
@@ -110,7 +118,8 @@ you are welcome to do any of the following:
    classes, but then reference selected classes back from `soe` as you desire
    them.
 
-5. Toss it all out and write something better!
+5. Toss it all out and write something better! This module was written to meet
+   my specific requirements, yours might be completely different.
 
 
 ## Requirements

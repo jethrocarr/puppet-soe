@@ -1,6 +1,18 @@
 # Provision a number of popular packages that we commonly desire that aren't
-# always provisioned by the operating system itself. The param `extra` allows
-# for extra packages to be define in Hiera in an array form.
+# always provisioned by the operating system itself.
+#
+# The param `extra` allows for extra packages to be define in Hiera in an array
+# form, for example in Hiera:
+#
+# soe::manage::packages::extra:
+#  - mypackage
+#  - kittens
+#
+# Note: If you get a package duplicate definition error between this module and
+# another one, it means the other module is not using the (newish)
+# ensure_packages syntax, which supports multiple definitions. If this occurs,
+# you should fix the other module and send them a PR.
+#
 
 class soe::manage::packages (
   $enable          = true,
