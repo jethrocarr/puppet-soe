@@ -2,7 +2,7 @@
 
 ## Overview
 
-Everyone's Puppet environment generally needs a Standard Operating Environmet
+Everyone's Puppet environment generally needs a Standard Operating Environment
 (SOE) or base module of some kind to setup general sensible good things for
 your environment so that you don't have to re-define the same common set of
 modules and configurations every time.
@@ -10,6 +10,10 @@ modules and configurations every time.
 This can be a hurdle for getting started with Puppet, so this module includes
 various sensible SOE configurations that you can either pickup as include as-is
 or fork the module to adjust and meet your own specific needs.
+
+It's primarily intended for internet-connected GNU/Linux servers, eg mail, web
+or other application servers rather than desktops and makes a number of 
+assumptions on that basis.
 
 
 ## Key Features
