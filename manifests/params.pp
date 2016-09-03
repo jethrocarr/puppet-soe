@@ -100,10 +100,10 @@ class soe::params {
   # Puppet run. This feature requires the fsalum/newrelic module.
   $enable_newrelic = $::kernel ? {
     'Linux'   => hiera('newrelic::server::linux::newrelic_license_key', false) ? {
-      'false' => false,
-      'undef' => true,
+      false   => false,
+      default => true,
     },
-    'undef' => false,
+    default => false,
   }
 
 
