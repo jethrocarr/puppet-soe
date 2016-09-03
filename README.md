@@ -35,14 +35,15 @@ Include the module and dependencies in your `Puppetfile` (if using recommended
 r10k workflow):
 
     mod 'jethrocarr/soe'
+    mod 'jethrocarr/digitalocean'
     mod 'jethrocarr/hostname'
     mod 'jethrocarr/repo_jethro'
     mod 'jethrocarr/virtual_user'
     mod 'fsalum/newrelic'
     mod 'petems/swap_file'
+    mod 'puppetlabs/apt'
     mod 'puppetlabs/ntp'
     mod 'puppetlabs/stdlib'
-    mod 'puppetlabs/apt'
     mod 'saz/sudo'
     mod 'saz/timezone'
     mod 'stahnma/epel'
@@ -99,13 +100,17 @@ you are welcome to do any of the following:
 
 2. Create a site-specific module (eg `s_soe`) and add additional Puppet classes
    there to add missing functionality, allowing you to keep your copy of `soe`
-   in-sync with upstream.
+   in-sync with upstream. 
 
 3. Fork this module and adjust as required to suit your needs. Just be aware it
    will make it harder to take advantage of new additions in future and you'll
    have to merge every so often.
+   
+4. Or you can mix & match, with your own `s_soe` module with some of your own
+   classes, but then reference selected classes back from `soe` as you desire
+   them.
 
-4. Toss it all out and write something better!
+5. Toss it all out and write something better!
 
 
 ## Requirements
