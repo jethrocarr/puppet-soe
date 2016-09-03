@@ -1,13 +1,13 @@
 # Permit the wheel group password-less sudo
 class soe::sudo {
 
-  class { 'sudo':
+  class { '::sudo':
     purge               => false,
     config_file_replace => false,
   }
 
   # TODO: is this FreeBSD compat?
-  sudo::conf { 'admins':
+  ::sudo::conf { 'admins':
     priority => 10,
     content  => "%wheel ALL=(ALL) NOPASSWD: ALL",
   }

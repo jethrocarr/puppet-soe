@@ -28,6 +28,9 @@ Include the module and dependencies in your `Puppetfile` (if using recommended
 r10k workflow):
 
     mod 'jethrocarr/soe'
+    mod 'jethrocarr/hostname'
+    mod 'jethrocarr/repo_jethro'
+    mod 'jethrocarr/virtual_user'
     mod 'fsalum/newrelic'
     mod 'petems/swap_file'
     mod 'puppetlabs/ntp'

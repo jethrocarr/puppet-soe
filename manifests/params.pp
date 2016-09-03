@@ -29,6 +29,9 @@ class soe::params {
   $manage_time_ntp  = true
   $manage_time_zone = 'UTC'
 
+  # Manage core system services (eg SSH, rsyslog)
+  $manage_services = true
+
 
   ## Package Management
 
@@ -60,6 +63,20 @@ class soe::params {
                  'yum-utils',
                  'rpm-build'],
     'undef'  => [],
+  }
+
+  # Install the EPEL repo. Recommended for CentOS and other EL variants, but
+  # be wary with Amazon Linux as not all packages will work properly there.
+  $enable_repo_epel = $::osfamily ? {
+    'RedHat' => true,
+    default  => false,
+  }
+
+  # repos.jethrocarr.com third party addon packages
+  $enable_repo_jethrocarr = $::osfamily ? {
+    'RedHat' => true,
+    'Debian' => true,
+    default  => false,
   }
 
 
