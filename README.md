@@ -31,6 +31,8 @@ r10k workflow):
     mod 'fsalum/newrelic'
     mod 'petems/swap_file'
     mod 'puppetlabs/ntp'
+    mod 'puppetlabs/stdlib'
+    mod 'puppetlabs/apt'
     mod 'saz/sudo'
     mod 'saz/timezone'
     mod 'stahnma/epel'
