@@ -1,0 +1,15 @@
+{
+  "name": "jethrocarr-soe",
+  "version": "0.0.1",
+  "author": "jethrocarr",
+  "summary": "Sets up a sensible Standard Operating Environment. This is designed for either direct use, or for forking & customising.",
+  "license": "Apache-2.0",
+  "source": "https://github.com/jethrocarr/puppet-soe",
+  "project_page": "https://github.com/jethrocarr/puppet-soe",
+  "issues_url": "https://github.com/jethrocarr/puppet-soe/issues",
+  "dependencies": [
+    {"name":"puppetlabs-stdlib","version_requirement":">= 1.0.0"}
+  ],
+  "data_provider": null
+}
+
