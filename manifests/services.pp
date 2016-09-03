@@ -1,5 +1,5 @@
 # Manage services
-class ::soe::services {
+class soe::services {
   
   # Disable unwanted/bad services
   if ($::osfamily == "RedHat") {
