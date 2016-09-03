@@ -22,7 +22,7 @@ class soe (
   if ($manage_updates)        { require ::soe::updates }
   if ($manage_swapspace)      { require ::soe::swapspace }
 
-  if ($enable_sudo_wheel)     { require ::soe:sudo }
+  if ($enable_sudo_wheel)     { require ::soe::sudo }
   if ($enable_newrelic)       { require ::newrelic::server::linux }
   if ($disable_ssh_password)  { require ::soe::sshnopassword }
 
