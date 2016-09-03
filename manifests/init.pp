@@ -9,6 +9,7 @@ class soe (
   $manage_updates_emailto                    = $soe::params::manage_updates_emailto,
   $enable_sudo_wheel                         = $soe::params::enable_sudo_wheel,
   $enable_newrelic                           = $soe::params::enable_newrelic,
+  $packages_ensure                           = $soe::params::packages_ensure,
   $disable_ssh_password                      = $soe::params::disable_ssh_password,
   $fix_rhel_systemd_tmpfs                    = $soe::params::fix_rhel_systemd_tmpfs,
   $fix_digital_ocean_disable_private_network = $soe::params::fix_digital_ocean_disable_private_network,
@@ -30,6 +31,13 @@ class soe (
     class { 'timezone':
       timezone => $manage_time_zone,
     }
+  }
+
+
+  # Packages
+
+  if ($packages_ensure) {
+    ensure_packages($packages_ensure)
   }
 
 

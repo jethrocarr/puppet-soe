@@ -30,6 +30,39 @@ class soe::params {
   $manage_time_zone = 'UTC'
 
 
+  ## Package Management
+
+  # Provision a number of popular packages that we commonly desire that aren't
+  # always provisioned by the operating system itself.
+  $packages_ensure = $::osfamily ? {
+    'Debian' => ['net-tools',
+                 'bsd-mailx',
+                 'telnet',
+                 'lsof',
+                 'htop',
+                 'iotop',
+                 'strace',
+                 'bzip2',
+                 'augeas-tools',
+                 'ruby-augeas'],
+    'RedHat' => ['vim-enhanced',
+                 'net-tools',
+                 'bind-utils',
+                 'mailx',
+                 'telnet',
+                 'lsof',
+                 'htop',
+                 'iotop',
+                 'strace',
+                 'bzip2',
+                 'augeas',
+                 'ruby-augeas',
+                 'yum-utils',
+                 'rpm-build'],
+    'undef'  => [],
+  }
+
+
 
   ## Security
 
@@ -46,7 +79,6 @@ class soe::params {
   # not change this, keys are the only way to have a secure server with SSH on
   # the public web.
   $disable_ssh_password = true
-
 
 
 
