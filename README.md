@@ -1,79 +1,106 @@
-# soe
-
-#### Table of Contents
-
-1. [Overview](#overview)
-2. [Module Description - What the module does and why it is useful](#module-description)
-3. [Setup - The basics of getting started with soe](#setup)
-    * [What soe affects](#what-soe-affects)
-    * [Setup requirements](#setup-requirements)
-    * [Beginning with soe](#beginning-with-soe)
-4. [Usage - Configuration options and additional functionality](#usage)
-5. [Reference - An under-the-hood peek at what the module is doing and how](#reference)
-5. [Limitations - OS compatibility, etc.](#limitations)
-6. [Development - Guide for contributing to the module](#development)
+# puppet-soe 
 
 ## Overview
 
-A one-maybe-two sentence summary of what the module does/what problem it solves.
-This is your 30 second elevator pitch for your module. Consider including
-OS/Puppet version it works with.
+Everyone's Puppet environment generally needs a Standard Operating Environmet
+(SOE) or base module of some kind to setup general sensible good things for
+your environment.
 
-## Module Description
+This can be a hurdle for getting started with Puppet, so this module includes
+various sensible SOE configurations that you can either pickup as include as-is
+or fork the module to adjust and meet your own specific needs.
 
-If applicable, this section should have a brief description of the technology
-the module integrates with and what that integration enables. This section
-should answer the questions: "What does this module *do*?" and "Why would I use
-it?"
 
-If your module has a range of functionality (installation, configuration,
-management, etc.) this is the time to mention it.
+## Key Features
 
-## Setup
+* Properly configure FQDN of server.
+* Configure swap space on low memory boxes.
+* Setup automatic updates.
+* Configure NTP and timezones
+* Install Newrelic server agent.
+* And much more...
 
-### What soe affects
 
-* A list of files, packages, services, or operations that the module will alter,
-  impact, or execute on the system it's installed on.
-* This is a great place to stick any warnings.
-* Can be in list or paragraph form.
-
-### Setup Requirements **OPTIONAL**
-
-If your module requires anything extra before setting up (pluginsync enabled,
-etc.), mention it here.
-
-### Beginning with soe
-
-The very basic steps needed for a user to get the module up and running.
-
-If your most recent release breaks compatibility or requires particular steps
-for upgrading, you may wish to include an additional section here: Upgrading
-(For an example, see http://forge.puppetlabs.com/puppetlabs/firewall).
 
 ## Usage
 
-Put the classes, types, and resources for customizing, configuring, and doing
-the fancy stuff with your module here.
+Include the module and dependencies in your `Puppetfile` (if using recommended
+r10k workflow):
 
-## Reference
+    mod 'jethrocarr/soe'
+    mod 'fsalum/newrelic'
+    mod 'petems/swap_file'
+    mod 'puppetlabs/ntp'
+    mod 'saz/sudo'
+    mod 'saz/timezone'
+    mod 'stahnma/epel'
 
-Here, list the classes, types, providers, facts, etc contained in your module.
-This section should include all of the under-the-hood workings of your module so
-people know what the module is touching on their system but don't need to mess
-with things. (We are working on automating this section!)
+Add the SOE module to your node definitions (usually in `site.pp` or your
+external node classifier). Note that we make use of Puppet stages, which
+normally is kind of horrible, but it's really needed to allow the SOE module
+to setup repositories used by later modules.
 
-## Limitations
+    # Apply SOE before any other subsequent modules
+    stage { 'soe': before => Stage['main'] }
+    class { 'soe': stage => soe }
 
-This is where you list OS compatibility, version compatibility, etc.
 
-## Development
+## Configuration
 
-Since your module is awesome, other users will want to play with it. Let them
-know what the ground rules for contributing are.
+The SOE module is somewhat configurable - there are a large number of
+parameters defined in `manifests/params.pp`, along with explainations of their
+purpose. You can change any of them via Hiera override rather than needing to
+fork the module simply to change a param.
 
-## Release Notes/Contributors/Etc **Optional**
+For example, the config option `$manage_time_zone` can be set by adding the
+following line to your Hiera data, which will take precedence.
 
-If you aren't using changelog, put your release notes here (though you should
-consider using changelog). You may also add any additional sections you feel are
-necessary or important to include here. Please use the `## ` header.
+    soe::manage_time_zone: 'Some/Other/Timezone'
+
+Of course this SOE isn't going to meet every use case. Where it falls short,
+you are welcome to do any of the following:
+
+1. Submit a PR if it's a useful feature to many other people (rather than just
+   yourself or some very unique rare distribution).
+
+2. Create a site-specific module (eg `s_soe`) and add additional Puppet classes
+   there to add missing functionality, allowing you to keep your copy of `soe`
+   in-sync with upstream.
+
+3. Fork this module and adjust as required to suit your needs. Just be aware it
+   will make it harder to take advantage of new additions in future and you'll
+   have to merge every so often.
+
+4. Toss it all out and write something better!
+
+
+## Requirements
+
+Supported on the following GNU/Linux platforms:
+
+* Ubuntu
+* Debian
+* CentOS
+
+PRs welcome for other mainstream distributions, MacOS or FreeBSD. This module
+is probably too UNIX-specific to really help anyone on the Windows platform.
+
+
+## Contributions
+
+All contributions are welcome via Pull Requests including documentation fixes
+or compatibility fixes for supporting other distributions (or other operating
+systems).
+
+
+## License
+
+This module is licensed under the Apache License, Version 2.0 (the "License").
+See the LICENSE or http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
