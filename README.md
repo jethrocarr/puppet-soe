@@ -57,6 +57,16 @@ to setup repositories used by later modules.
     stage { 'soe': before => Stage['main'] }
     class { 'soe': stage => soe }
 
+As per configuration information below, you'll probably want to set some
+overrides in Hiera - the following are the most likely candidates you'll want
+to set initially:
+
+    soe::manage::time::timezone: 'UTC'
+    soe::manage::mail::email_root_destination: 'support@example.com'
+    soe::manage::packages::extra:
+     - myfavtexteditor
+     - durplib
+
 
 ## Configuration
 
