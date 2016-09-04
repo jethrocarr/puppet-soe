@@ -21,6 +21,10 @@ class soe::manage::packages (
 
   if ($enable) {
 
+    # Require the repos module, there are some packages (eg htop on CentOS)
+    # which ship in the added repos.
+    require soe::manage::repos
+
     # Install base set
     $package_list = $::osfamily ? {
       'Debian' => ['net-tools',
