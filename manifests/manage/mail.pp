@@ -25,8 +25,8 @@ class soe::manage::mail (
         'FreeBSD' => 'wheel',
         default   => 'root',
       },
-      source => 'puppet:///modules/soe/manage/aliases',
-      notify => Exec['update_/etc/aliases'],
+      content => template("soe/manage/aliases.erb"),
+      notify  => Exec['update_/etc/aliases'],
     }
 
     exec { 'update_/etc/aliases':
