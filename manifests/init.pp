@@ -8,6 +8,7 @@
 class soe {
 
   include ::soe::manage::hostname
+  include ::soe::manage::mail
   include ::soe::manage::time
   include ::soe::manage::updates
   include ::soe::manage::swapspace
