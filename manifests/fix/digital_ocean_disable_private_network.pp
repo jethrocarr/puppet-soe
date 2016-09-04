@@ -16,8 +16,8 @@ class soe::fix::digital_ocean_disable_private_network (
         if ($::osfamily == "RedHat") {
           # Drop in file disabling the interface from all management.
           file {'/etc/sysconfig/network-scripts/ifcfg-eth1':
-            ensure => file,
-            source => "puppet:///modules/soe/ifcfg-eth1",
+            ensure  => file,
+            content => template("soe/fix/ifcfg-eth1.erb")
           }
         }
 
