@@ -3,6 +3,9 @@
 # runs and Yum updates. So it's important to setup a swap file on any of
 # these small systems. Note that we use a swapfile due to many cloud servers
 # only having a single mounted volume and can't be partitioned further.
+#
+# For more information for the justification for/against swap, please refer to:
+# https://www.jethrocarr.com/2016/03/13/how-much-swap-should-i-use-on-my-vm/
 
 class soe::manage::swapspace (
   $enable         = true,
