@@ -8,13 +8,17 @@ class soe::manage::mail (
   ){
 
   if ($enable) {
-    # Install postfix on platforms that don't have a pre-installed MTA
-    if ($::operatingsystem == 'Fedora') {
-      package { 'postfix':
-        ensure => 'installed',
-        before => File['/etc/aliases'],
-      }
+
+    # Install package to provide newaliases if not already present. Generally
+    # this means installing an MTA such as postfix
+    $newaliases_deps = $::operatingsystem ? {
+      'Fedora'  => ['postfix'],
+      'Ubuntu'  => ['mail-transport-agent'],
+      default   => [],
     }
+
+    ensure_packages($newaliases_deps)
+
 
     # Install the mail aliases file
     file { '/etc/aliases':
@@ -33,6 +37,7 @@ class soe::manage::mail (
       command     => 'newaliases',
       path        => ['/bin', '/sbin', '/usr/bin', '/usr/sbin'],
       refreshonly => true,
+      require     => Package[$newaliases_deps],
     }
   }
 }
