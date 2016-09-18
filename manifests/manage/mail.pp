@@ -13,7 +13,7 @@ class soe::manage::mail (
     # this means installing an MTA such as postfix
     $newaliases_deps = $::operatingsystem ? {
       'Fedora'  => ['postfix'],
-      'Ubuntu'  => ['mail-transport-agent'],
+      'Ubuntu'  => ['bsd-mailx'],
       default   => [],
     }
 
