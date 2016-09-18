@@ -10,7 +10,7 @@ class soe::fix::digital_ocean_disable_private_network (
 
   if ($enable == true) {
     if ($::digital_ocean_id) {
-      if (!$::digital_ocean_interfaces_private_0_ipv4_address) {
+      if (!getvar('::digital_ocean_interfaces_private_0_ipv4_address')) {
         # Server is on digital ocean AND there is no private IPv4 interface.
 
         if ($::osfamily == "RedHat") {
