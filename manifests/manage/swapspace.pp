@@ -15,7 +15,7 @@ class soe::manage::swapspace (
 ) {
 
   if ($enable) {
-    if ($::memorysize_mb < $onlyifmembelow) {
+    if (ceiling($::memorysize_mb) < ceiling($onlyifmembelow)) {
 
       swap_file::files { 'default':
         ensure       => present,
