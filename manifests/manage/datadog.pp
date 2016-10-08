@@ -15,6 +15,18 @@ class soe::manage::datadog (
 
   if ($enable and $available) {
     require ::datadog_agent
+
+    if (hiera('datadog_agent::puppet_run_reports', false)) {
+      # Puppet reporting has been enabled. This should only be done on a Puppet
+      # master, or a masterless Puppet deployment like Pupistry. The module does
+      # most of the work, but we should use Augeas to set the reporting up in
+      # the Puppet config file.
+
+      augeas { "puppet enable datadog reports":
+        context => "/files/etc/puppet/puppet.conf/main/",
+        changes => "set reports datadog_reports"
+      }
+    }
   }
 
 }
