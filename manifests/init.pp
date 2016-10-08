@@ -17,6 +17,8 @@ class soe {
   include ::soe::manage::logger
   include ::soe::manage::repos
   include ::soe::manage::packages
+  include ::soe::manage::newrelic
+  include ::soe::manage::datadog
 
   include ::soe::fix::debian_apt_dep
   include ::soe::fix::digital_ocean_disable_private_network

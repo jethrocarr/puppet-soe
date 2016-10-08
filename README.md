@@ -40,6 +40,7 @@ r10k workflow):
     mod 'jethrocarr/repo_jethro'
     mod 'jethrocarr/virtual_user'
     mod 'fsalum/newrelic'
+    mod 'datadog/datadog_agent'
     mod 'petems/swap_file'
     mod 'puppetlabs/apt'
     mod 'puppetlabs/ntp'
