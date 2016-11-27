@@ -29,7 +29,12 @@ class soe::manage::updates (
       }
     }
 
-    # TODO: Ubuntu/Debian?
+    if ($::osfamily == "Debian") {
+      # Unattended upgrades will update daily by default.
+      package { 'unattended-upgrades':
+        ensure        => installed,
+        allow_virtual => true,
+      }
   }
 
 }
