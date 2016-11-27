@@ -35,6 +35,7 @@ class soe::manage::updates (
         ensure        => installed,
         allow_virtual => true,
       }
+    }
   }
 
 }
