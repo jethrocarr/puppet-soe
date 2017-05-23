@@ -35,6 +35,32 @@ class soe::manage::updates (
         ensure        => installed,
         allow_virtual => true,
       }
+
+      # Ensure the apt-daily service is enabled. This one isn't always running
+      # and is difficult to manage properly with native service resource since
+      # it's *usually* stopped, but sometimes it's running and we wouldn't want
+      # Puppet to actually stop it if it was running...
+      exec { 'ensure-apt-daily-service-enabled':
+        path    => "/bin:/sbin:/usr/bin:/usr/sbin",
+        command => 'systemctl enable apt-daily.service',
+        onlyif  => 'systemctl status apt-daily.service | grep -q disabled',
+      } ->
+
+      # We can't manage timers with Puppet, so we do this the hard way,
+      # making sure we are running the timer. If it's not running, key tasks
+      # such as unattended upgrades don't run.
+      exec { 'ensure-apt-daily-timer-enabled':
+        path    => "/bin:/sbin:/usr/bin:/usr/sbin",
+        command => 'systemctl enable apt-daily.timer',
+        onlyif  => 'systemctl status apt-daily.timer | grep -q disabled',
+      } ->
+
+      exec { 'ensure-apt-daily-timer-running':
+        path    => "/bin:/sbin:/usr/bin:/usr/sbin",
+        command => 'systemctl start apt-daily.timer',
+        onlyif  => 'systemctl status apt-daily.timer | grep -q inactive',
+      }
+
     }
   }
 
