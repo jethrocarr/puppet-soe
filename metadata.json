@@ -1,6 +1,6 @@
 {
   "name": "jethrocarr-soe",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "author": "jethrocarr",
   "summary": "Sets up a sensible Standard Operating Environment. This is designed for either direct use, or for forking & customising.",
   "license": "Apache-2.0",
