@@ -29,12 +29,32 @@ class soe::manage::updates (
       }
     }
 
-    if ($::osfamily == "Debian") {
+    if ($::operatingsystem == "Debian") {
       # Unattended upgrades will update daily by default.
       package { 'unattended-upgrades':
         ensure        => installed,
         allow_virtual => true,
+      } ->
+
+      # Make sure the /etc/apt/apt.conf.d/20auto-upgrades file has been created
+      # otherwise the unattended upgrades won't be run.
+      file { '/etc/apt/apt.conf.d/20auto-upgrades':
+        ensure   => 'file',
+        owner    => 'root',
+        group    => 'root',
+        mode     => '0644',
+        content  => template('soe/manage/apt-20auto-upgrades.conf.erb'),
       }
+    }
+
+    if ($::operatingsystem == "Ubuntu") {
+      # Note: this will only support systemd Ubuntu (16.04 LTS+)
+
+      # Unattended upgrades will update daily by default.
+      package { 'unattended-upgrades':
+        ensure        => installed,
+        allow_virtual => true,
+      } ->
 
       # Ensure the apt-daily service is enabled. This one isn't always running
       # and is difficult to manage properly with native service resource since
