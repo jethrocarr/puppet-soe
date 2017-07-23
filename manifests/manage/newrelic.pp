@@ -1,6 +1,7 @@
-# Installs the Newrelic server agent.
+# Warning: The Newrelic server agent is EOL and will be removed at some point.
+# This class now defaults to removing it given it won't be working much longer.
 class soe::manage::newrelic (
-  $enable = true,
+  $enable = false,
   ) {
 
   # Enable the Newrelic server agent by default, however it's only available
@@ -15,8 +16,31 @@ class soe::manage::newrelic (
     default => false,
   }
 
-  if ($enable and $available) {
-    require ::newrelic::server::linux
+
+  if ($available) {
+    if ($enable) {
+      # Install using the Newrelic server agent
+      require ::newrelic::server::linux
+    } else {
+      # Ensure the agent is purged
+			service { 'newrelic-sysmond':
+				ensure     => 'stopped',
+				enable     => false,
+				hasrestart => true,
+				hasstatus  => true,
+			} ->
+			package { 'newrelic-sysmond':
+				ensure  => 'absent',
+			}
+
+      # Uninstall the repos given we are no longer using the server agent
+	    file { '/etc/apt/sources.list.d/newrelic.list':
+        ensure => 'absent'
+      }
+      file { '/etc/yum.repos.d/newrelic.repo':
+        ensure => 'absent'
+      }
+    }
   }
 
 }
